@@ -1,0 +1,31 @@
+version: '3.5'
+
+services:
+  app:
+      build:
+        context: .
+        dockerfile: .docker/Dockerfile
+      image: 'laravel_test_api'
+      container_name: laravel-test-api
+      hostname: laravel-test.local
+      domainname: local
+      ports:
+        - 80:80
+      volumes:
+        - ./web:/var/www/html
+
+  mysql_db:
+    platform: linux/x86_64
+    image: mysql:8.0
+    restart: always
+    container_name: mysql_server
+    ports: 
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: 'laravel_test'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_ROOT_PASSWORD: "password"
+    volumes:
+      - ./db:/var/lib/mysql
+
+  
